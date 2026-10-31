@@ -28,9 +28,8 @@ fun YtdlpUpdater() {
         if (!YT_DLP_AUTO_UPDATE.getBoolean() && YT_DLP_VERSION.getString().isNotEmpty())
             return@LaunchedEffect
 
-        if (!PreferenceUtil.isNetworkAvailableForDownload()) {
-            return@LaunchedEffect
-        }
+        // S-Grab: update the engine on any network (it is only a few MB). Seal skipped
+        // mobile data, which left the engine outdated and broke YouTube/Facebook.
 
         val lastUpdateTime = YT_DLP_UPDATE_TIME.getLong()
         val currentTime = System.currentTimeMillis()

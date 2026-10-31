@@ -91,6 +91,10 @@ class App : Application() {
                 YoutubeDL.init(this@App)
                 FFmpeg.init(this@App)
                 Aria2c.init(this@App)
+                // S-Grab: always record the engine version so reports show it
+                runCatching { YoutubeDL.getInstance().version(this@App) }
+                    .getOrNull()
+                    ?.let { PreferenceUtil.encodeString(YT_DLP_VERSION, it) }
                 DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
                     FileUtil.writeContentToFile(it, getCookiesFile())
                 }

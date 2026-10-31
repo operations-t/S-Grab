@@ -64,10 +64,9 @@ object UpdateUtil {
             YoutubeDL.getInstance()
                 .updateYoutubeDL(appContext = context, updateChannel = channel)
                 .also {
-                    if (it == YoutubeDL.UpdateStatus.DONE) {
-                        YoutubeDL.getInstance().version(context)?.let {
-                            PreferenceUtil.encodeString(YT_DLP_VERSION, it)
-                        }
+                    // S-Grab: record the version whether it updated or was already current
+                    YoutubeDL.getInstance().version(context)?.let {
+                        PreferenceUtil.encodeString(YT_DLP_VERSION, it)
                     }
                     val now = System.currentTimeMillis()
                     YT_DLP_UPDATE_TIME.updateLong(now)

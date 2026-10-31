@@ -1,5 +1,11 @@
 # S-Grab changelog
 
+## 1.0.4 - Download engine fix (31 Oct 2026)
+
+- yt-dlp now auto-updates on mobile data too (Seal skipped metered networks, leaving the engine outdated, which broke YouTube and Facebook downloads)
+- Checks for a yt-dlp update daily instead of weekly
+- The yt-dlp version is always recorded, so error reports show it
+
 ## 1.0.3 - Developer credit (31 Oct 2026)
 
 - "Built & developed by Shifat" shown under the download button, bottom-right of the home screen
