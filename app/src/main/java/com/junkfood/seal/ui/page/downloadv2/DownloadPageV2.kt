@@ -605,7 +605,14 @@ fun FABs(modifier: Modifier = Modifier, downloadCallback: () -> Unit = {}) {
                     )
                 }
             },
-            modifier = Modifier.padding(vertical = 12.dp),
+            modifier = Modifier.padding(top = 12.dp, bottom = 4.dp),
+        )
+        // S-Grab credit, bottom-right corner of the home screen
+        Text(
+            text = stringResource(R.string.developer_credit),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(end = 2.dp, bottom = 4.dp),
         )
     }
 }

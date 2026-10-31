@@ -1,5 +1,9 @@
 # S-Grab changelog
 
+## 1.0.3 - Developer credit (31 Oct 2026)
+
+- "Built & developed by Shifat" shown under the download button, bottom-right of the home screen
+
 ## 1.0.2 - Icon from an image (31 Oct 2026)
 
 - App icon is now built from one picture, `branding/app-icon.png`; replace it to change the icon
