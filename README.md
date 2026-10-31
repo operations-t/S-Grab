@@ -36,6 +36,13 @@ Add these four repository secrets under **Settings → Secrets and variables →
 Without them the workflow builds a debug APK, which cannot update over a previous install.
 Keep a private backup of the keystore: if it is lost, users must uninstall to update.
 
+## Changing the app icon
+
+The icon is made from one picture: **`branding/app-icon.png`**.
+Replace it with your own square image (1024 × 1024 PNG is best) and push; the build
+creates every icon size automatically. Keep the important part in the middle, because
+phones crop the edges into a circle or rounded square.
+
 ## Building locally
 
 Open in Android Studio (JDK 21), or run `./gradlew assembleGenericDebug`.

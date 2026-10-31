@@ -1,5 +1,11 @@
 # S-Grab changelog
 
+## 1.0.2 - Icon from an image (31 Oct 2026)
+
+- App icon is now built from one picture, `branding/app-icon.png`; replace it to change the icon
+- `branding/make-icons.sh` creates every size; the GitHub build runs it automatically
+- Removed the vector (code) icon files
+
 ## 1.0.1 - New icon (31 Oct 2026)
 
 - Launcher icon is now "SG" on a red/blue split (adaptive, themed and legacy versions)
