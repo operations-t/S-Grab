@@ -220,7 +220,12 @@ class App : Application() {
                 .append("App version: $versionName ($versionCode)\n")
                 .append("Device information: Android $release (API ${Build.VERSION.SDK_INT})\n")
                 .append("Supported ABIs: ${Build.SUPPORTED_ABIS.contentToString()}\n")
-                .append("Yt-dlp version: ${YT_DLP_VERSION.getString()}\n")
+                .append(
+                    "Yt-dlp version: ${
+                        runCatching { YoutubeDL.getInstance().version(context) }.getOrNull()
+                            ?: YT_DLP_VERSION.getString()
+                    }\n"
+                )
                 .apply {
                     val updateError = AppInfo.YT_DLP_LAST_ERROR.getString()
                     if (updateError.isNotEmpty()) append("Yt-dlp update error: $updateError\n")
