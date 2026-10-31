@@ -17,6 +17,14 @@ RES=app/src/main/res
 # Colour behind the icon on phones that show a little of the background:
 # taken from near the top-left corner of the picture.
 BG=$(convert "$SRC" -alpha off -format '#%[hex:p{8,8}]' info: | cut -c1-7)
+# Non-square pictures are centred on a square canvas (filled with that colour)
+# instead of being stretched.
+SQ=$(mktemp --suffix=.png)
+trap 'rm -f "$SQ"' EXIT
+SIDE=$(convert "$SRC" -format '%[fx:max(w,h)]' info:)
+convert "$SRC" -background "$BG" -gravity center -extent "${SIDE}x${SIDE}" "$SQ"
+SRC="$SQ"
+
 cat > "$RES/values/ic_launcher_background.xml" <<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
@@ -43,4 +51,4 @@ for pair in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
     -extent "${f}x${f}" "$out/ic_launcher_foreground.png"
 done
 
-echo "Icons built from $SRC (background $BG)"
+echo "Icons built from branding/app-icon.png (background $BG)"
