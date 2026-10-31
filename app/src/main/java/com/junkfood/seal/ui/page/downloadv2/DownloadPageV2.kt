@@ -1,5 +1,7 @@
 package com.junkfood.seal.ui.page.downloadv2
 
+import android.Manifest
+import android.os.Build
 import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.animation.core.AnimationState
@@ -120,6 +122,9 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.getErrorReport
 import com.junkfood.seal.util.makeToast
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -192,7 +197,7 @@ sealed interface UiAction {
     data class CopyErrorReport(val throwable: Throwable) : UiAction
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun DownloadPageV2(
     modifier: Modifier = Modifier,
@@ -206,12 +211,34 @@ fun DownloadPageV2(
     val clipboardManager = LocalClipboardManager.current
     val uriHandler = LocalUriHandler.current
 
+    // S-Grab: Android 10 and older need storage permission to save into Download/.
+    // Seal 2.0's new home screen never asked for it, so downloads failed with
+    // "Permission denied". Ask before opening the download sheet.
+    var openSheetAfterGrant by remember { mutableStateOf(false) }
+    val storagePermission =
+        rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE) { granted ->
+            if (!granted) context.makeToast(R.string.permission_denied)
+            else if (openSheetAfterGrant) dialogViewModel.postAction(Action.ShowSheet())
+            openSheetAfterGrant = false
+        }
+    // Ask once on launch too, so Quick Download from the share sheet can save files.
+    LaunchedEffect(Unit) {
+        if (Build.VERSION.SDK_INT <= 29 && !storagePermission.status.isGranted) {
+            storagePermission.launchPermissionRequest()
+        }
+    }
+
     DownloadPageImplV2(
         modifier = modifier,
         taskDownloadStateMap = downloader.getTaskStateMap(),
         downloadCallback = {
             view.slightHapticFeedback()
-            dialogViewModel.postAction(Action.ShowSheet())
+            if (Build.VERSION.SDK_INT > 29 || storagePermission.status.isGranted) {
+                dialogViewModel.postAction(Action.ShowSheet())
+            } else {
+                openSheetAfterGrant = true
+                storagePermission.launchPermissionRequest()
+            }
         },
         onMenuOpen = onMenuOpen,
     ) { task, action ->

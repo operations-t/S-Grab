@@ -1,5 +1,9 @@
 # S-Grab changelog
 
+## 1.0.6 - Android 10 storage fix (31 Oct 2026)
+
+- Asks for storage permission on Android 10 and older (on launch and before downloading). Seal 2.0's new home screen never asked, so downloads failed with "Permission denied" when creating Download/S-Grab
+
 ## 1.0.5 - Update diagnostics (31 Oct 2026)
 
 - "Update yt-dlp" now shows the reason when the update fails
