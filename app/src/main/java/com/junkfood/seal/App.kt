@@ -23,6 +23,7 @@ import com.junkfood.seal.ui.page.settings.directory.Directory
 import com.junkfood.seal.ui.page.settings.network.CookiesViewModel
 import com.junkfood.seal.ui.page.videolist.VideoListViewModel
 import com.junkfood.seal.util.AUDIO_DIRECTORY
+import com.junkfood.seal.util.AppInfo
 import com.junkfood.seal.util.COMMAND_DIRECTORY
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
@@ -220,6 +221,10 @@ class App : Application() {
                 .append("Device information: Android $release (API ${Build.VERSION.SDK_INT})\n")
                 .append("Supported ABIs: ${Build.SUPPORTED_ABIS.contentToString()}\n")
                 .append("Yt-dlp version: ${YT_DLP_VERSION.getString()}\n")
+                .apply {
+                    val updateError = AppInfo.YT_DLP_LAST_ERROR.getString()
+                    if (updateError.isNotEmpty()) append("Yt-dlp update error: $updateError\n")
+                }
                 .toString()
         }
 

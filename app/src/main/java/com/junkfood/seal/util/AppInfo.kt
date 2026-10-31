@@ -11,4 +11,7 @@ object AppInfo {
 
     /** S-Grab is a fork of Seal (GPL-3.0). Keep this credit visible. */
     const val UPSTREAM_URL = "https://github.com/JunkFood02/Seal"
+
+    /** Preference key: last yt-dlp auto-update error, shown in error reports. */
+    const val YT_DLP_LAST_ERROR = "sgrab_ytdlp_last_error"
 }

@@ -208,8 +208,13 @@ fun GeneralDownloadPreferences(onNavigateBack: () -> Unit, navigateToTemplate: (
                                     }
                                     .onFailure { th ->
                                         th.printStackTrace()
+                                        // S-Grab: show why it failed, not just that it failed
+                                        val reason =
+                                            (th.message ?: th.javaClass.simpleName).take(300)
                                         ToastUtil.makeToastSuspend(
-                                            App.context.getString(R.string.yt_dlp_update_fail)
+                                            App.context.getString(R.string.yt_dlp_update_fail) +
+                                                ": " +
+                                                reason
                                         )
                                     }
                                     .onSuccess {

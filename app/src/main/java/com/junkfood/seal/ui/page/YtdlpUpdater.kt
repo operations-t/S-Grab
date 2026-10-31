@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.Downloader
+import com.junkfood.seal.util.AppInfo
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getLong
@@ -42,7 +43,14 @@ fun YtdlpUpdater() {
                 Downloader.updateState(state = Downloader.State.Updating)
                 withContext(Dispatchers.IO) { UpdateUtil.updateYtDlp() }
             }
-            .onFailure { it.printStackTrace() }
+            .onSuccess { PreferenceUtil.encodeString(AppInfo.YT_DLP_LAST_ERROR, "") }
+            .onFailure {
+                it.printStackTrace()
+                PreferenceUtil.encodeString(
+                    AppInfo.YT_DLP_LAST_ERROR,
+                    (it.message ?: it.javaClass.simpleName).take(300),
+                )
+            }
         Downloader.updateState(state = Downloader.State.Idle)
     }
 }

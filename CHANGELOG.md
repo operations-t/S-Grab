@@ -1,5 +1,10 @@
 # S-Grab changelog
 
+## 1.0.5 - Update diagnostics (31 Oct 2026)
+
+- "Update yt-dlp" now shows the reason when the update fails
+- Error reports include the last automatic yt-dlp update error
+
 ## 1.0.4 - Download engine fix (31 Oct 2026)
 
 - yt-dlp now auto-updates on mobile data too (Seal skipped metered networks, leaving the engine outdated, which broke YouTube and Facebook downloads)
