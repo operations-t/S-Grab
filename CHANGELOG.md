@@ -1,5 +1,9 @@
 # S-Grab changelog
 
+## 1.0.1 - New icon (31 Oct 2026)
+
+- Launcher icon is now "SG" on a red/blue split (adaptive, themed and legacy versions)
+
 ## 1.0.0 - Stage 1: rebrand (31 Oct 2026)
 
 Forked from Seal 2.0.0-alpha.5 (upstream commit 7677f61, 25 Sep 2026).
